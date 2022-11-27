@@ -1,21 +1,18 @@
-const { Schema, Model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const productoSchema = Schema({
 
     nombre: {
         type: String,
-        required: true,
     },
 
     proveedor: {
         type: String,
-        required: true,
         default: 'N/A'
     },
     
     stock: {
         type: String,
-        required: true,
         default: '1'
     },
     
@@ -32,9 +29,8 @@ const productoSchema = Schema({
     estado: {
         type: Boolean,
         required: true,
-        default: false
     },
 
 })
 
-module.exports = Model('Producto', productoSchema);
+module.exports = model('Producto', productoSchema);
