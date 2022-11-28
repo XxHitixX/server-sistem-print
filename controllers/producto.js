@@ -1,8 +1,38 @@
 const Producto = require('../models/producto');
 
-const getProducto = (req, resp) => {
+const getProducto = async(req, resp) => {
+
+    const { limite, desde } = req.query;
+
+    const producto = await Producto.find({ estado: true })
+                        .limit(limite)
+                        .skip(desde);
+    const total = await Producto.countDocuments({ estado: true })
     resp.json({
-        msg: 'get todos los productos producto'
+        total,
+        msg: 'get todos los productos producto',
+        producto
+    })
+
+/* 
+    const [total, usuario] = await Promise.all([
+        Usuario.countDocuments({ estado: true }),
+        Usuario.find({ estado: true })
+            .limit(Number(limite))
+            .skip(Number(desde))
+    ]) */
+
+}
+
+const getProductobyId = async(req, res) => {
+    
+    const { id } = req.params;
+
+    const producto = await Producto.findById(id);
+    
+    res.json({
+        ok: true,
+        producto
     })
 }
 
@@ -60,6 +90,7 @@ const deleteProducto = async(req, resp) => {
 
 module.exports = {
     getProducto,
+    getProductobyId,
     postProducto,
     putProducto,
     deleteProducto

@@ -3,7 +3,8 @@ const { Router } = require('express');
 const { getProducto, 
         postProducto, 
         putProducto, 
-        deleteProducto } = require('../controllers/producto');
+        deleteProducto, 
+        getProductobyId} = require('../controllers/producto');
 const { check } = require('express-validator')
 
 const { validarCampos } = require('../middlewares/verificar-campos');
@@ -13,6 +14,13 @@ const { verificarNombre, existeIdProducto } = require('../helpers/validadores');
 const router = Router();
 
 router.get('/', getProducto );
+
+router.get('/:id', [
+        check('id', 'No es un id válido').isMongoId(),
+        check('id', 'Debe proveerse el identificador del producto').not().isEmpty(),
+        check('id').custom( existeIdProducto ),
+        validarCampos
+],getProductobyId );
 
 router.post('/', [
         check('nombre', 'El campo nombre es requerido').not().isEmpty(),
