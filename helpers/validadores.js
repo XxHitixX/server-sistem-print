@@ -1,4 +1,5 @@
-const Producto = require('../models/producto')
+const Producto = require('../models/producto');
+const Cliente = require('../models/cliente');
 
 
 const verificarNombre = async( nombre ) => {
@@ -18,10 +19,30 @@ const existeIdProducto = async(id) => {
     }
 }
 
+const verificarTelefonoCliente = async( telefono ) => {
+    const cliente = await Cliente.findOne({telefono})
+
+    if( cliente ){
+        throw new Error(`El cliente con teléfono: ${telefono}, ya se encuentra registrado`);
+    }
+
+}
+
+const existeIdCliente = async(id) => {
+    const cliente = await Cliente.findById(id);
+
+    if( !cliente ){
+        throw new Error('No se encontró el cliente.');
+    }
+}
+
+
 
 
 
 module.exports = {
     verificarNombre,
     existeIdProducto,
+    verificarTelefonoCliente,
+    existeIdCliente
 }

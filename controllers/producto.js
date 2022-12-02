@@ -1,6 +1,6 @@
 const Producto = require('../models/producto');
 
-const getProducto = async(req, resp) => {
+const getProducto = async(req, res) => {
 
     const { limite, desde } = req.query;
 
@@ -8,7 +8,7 @@ const getProducto = async(req, resp) => {
                         .limit(limite)
                         .skip(desde);
     const total = await Producto.countDocuments({ estado: true })
-    resp.json({
+    res.json({
         total,
         msg: 'get todos los productos producto',
         producto
